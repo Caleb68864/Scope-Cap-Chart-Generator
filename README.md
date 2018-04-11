@@ -2,5 +2,6 @@
 Python program for generating a chart to place inside of your scope caps
 
 #### ToDo
- - Make grid print inside Circle
  - Create GUI
+ - Export to PDF with dimensions
+ - Choose columns and data sent to grid

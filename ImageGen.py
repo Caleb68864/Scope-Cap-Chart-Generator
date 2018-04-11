@@ -5,10 +5,20 @@ from GridCell import GridCell
 class ImageGen:
     def __init__(self, height, width, data):
         self.blank_image = Image.new('RGB', (height, width), (255, 255, 255))
+        self.grid_image = Image.new('RGB', (height, width), (255, 255, 255))
         #self.makegrid(self.blank_image, cols, rows)
-        #self.makecircle(self.blank_image)
-        self.makecells(self.blank_image, data)
+        self.makecircle(self.blank_image)
+        self.makecells(self.grid_image, data)
+
+        sqside = int((self.blank_image.width / 2) * 1.41421)
+
+        self.grid_image = self.grid_image.resize((sqside, sqside), Image.ANTIALIAS)
         print("Saving Image")
+
+        grid_origin_x = int((self.blank_image.width - self.grid_image.width) / 2)
+        grid_origin_y = int((self.blank_image.height - self.grid_image.height) / 2)
+
+        self.blank_image.paste(self.grid_image, (grid_origin_x, grid_origin_y))
         self.blank_image.save("chart.jpg")
 
     def makegrid(self, img, cols, rows):
@@ -42,7 +52,7 @@ class ImageGen:
         row_space = int(height / rows)
         height = row_space * rows
         width = col_space * cols
-        self.blank_image = img = img.resize((width + 1, height +1), Image.ANTIALIAS)
+        self.grid_image = img = img.resize((width + 1, height +1), Image.ANTIALIAS)
 
         print("Height:{} Width:{} Cols:{} Col_Space:{} Rows: {} Row_Space:{}".format(height, width, cols, col_space, rows, row_space))
 
@@ -75,7 +85,7 @@ class ImageGen:
                 cells.append(gridcell)
 
         for cell in cells:
-            # Change Background of Header Row
+            # Change Background of Header Row and Populate
             if cell.row_index == 0:
                 row_color = (255, 255, 0)
                 cell.drawcell(background=row_color)
@@ -87,17 +97,14 @@ class ImageGen:
                 cell.drawcell(background=row_color)
                 # cell.typeincell("B:{} L:{}".format(cell.cell[3][0], cell.cell[3][1]))
 
-                print(cell.col_index, cell.row_index, data.iloc[cell.row_index - 1, cell.col_index])
+                #print(cell.col_index, cell.row_index, data.iloc[cell.row_index - 1, cell.col_index])
                 cell.typeincell("{}".format(data.iloc[cell.row_index - 1, cell.col_index]))
 
         #print(cells)
 
     def makecircle(self, img):
-        circle_dist_x = int(img.shape[1] / 2)
-        circle_dist_y = int(img.shape[0] / 2)
-        circle_center_x = int(img.shape[1] / 2)
-        circle_center_y = int(img.shape[0] / 2)
-        #cv2.ellipse(img, (circle_center_x, circle_center_y), (circle_dist_x, circle_dist_y), 0, 0, 360, (0, 0, 0), 1)
+        draw = ImageDraw.Draw(img)
+        draw.ellipse((0, 0, img.width, img.height), fill=(0, 0, 0), outline=(0, 0, 0))
 
     def drawcol(self, img, start):
         draw = ImageDraw.Draw(img)

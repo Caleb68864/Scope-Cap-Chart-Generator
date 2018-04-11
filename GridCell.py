@@ -45,3 +45,6 @@ class GridCell:
         # print(origin)
 
         draw.text(origin, text, font=font, fill=fontcolor)
+
+    def getimage(self):
+        return self.img
