@@ -39,7 +39,7 @@ class ImageGen:
         height = row_space * rows
         width = col_space * cols
         self.blank_image = img = img.resize((width, height), Image.ANTIALIAS)
-        draw = ImageDraw.Draw(img)
+
         print("Height:{} Width:{} Col_Space:{} Row_Space:{}".format(height, width, col_space, row_space))
 
         col_start = 0
@@ -61,11 +61,15 @@ class ImageGen:
                 cells.append(self.makecell(col_start, row_start, col_space, row_space))
 
         for cell in cells:
-            t_cells = [tuple(l) for l in cell]
-            draw.polygon(t_cells, fill=(255,255,255,255), outline=(0, 0, 0))
-            self.typeincell("B:{} L:{}".format(cell[3][0], cell[3][1]), self.blank_image, cell)
+            self.drawcell(cell, img)
 
         #print(cells)
+
+    def drawcell(self, cell, img):
+        t_cells = [tuple(l) for l in cell]
+        draw = ImageDraw.Draw(img)
+        draw.polygon(t_cells, fill=(255, 255, 255, 255), outline=(0, 0, 0))
+        self.typeincell("B:{} L:{}".format(cell[3][0], cell[3][1]), self.blank_image, cell)
 
     def makecell(self, col_start, row_start, col_space, row_space):
         tl = [col_start, row_start]
