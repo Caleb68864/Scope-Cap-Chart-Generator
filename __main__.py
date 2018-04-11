@@ -22,4 +22,4 @@ class Main:
 
 
 if __name__ == "__main__":
-    ig = ImageGen(300, 300, 4, 10)
+    ig = ImageGen(500, 500, 4, 10)
