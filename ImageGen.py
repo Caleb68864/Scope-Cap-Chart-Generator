@@ -31,6 +31,12 @@ class ImageGen:
             self.drawrow(img, row_start)
             row_start += row_space
 
+        circle_dist_x = int(img.shape[1] / 2)
+        circle_dist_y = int(img.shape[0] / 2)
+        circle_center_x = int(img.shape[1] / 2)
+        circle_center_y = int(img.shape[0] / 2)
+        cv2.ellipse(img, (circle_center_x, circle_center_y), (circle_dist_x, circle_dist_y), 0, 0, 360, 255, 1)
+
     def drawcol(self, img, start):
         cv2.line(img, (start, 0), (start, img.shape[0]), (0, 0, 0))
 
