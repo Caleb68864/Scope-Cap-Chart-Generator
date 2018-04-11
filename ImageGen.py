@@ -1,28 +1,22 @@
-import numpy as np
-import cv2
+from PIL import Image, ImageDraw, ImageFont
 
 
 class ImageGen:
     def __init__(self, height, width, cols, rows):
-        self.blank_image = np.zeros((height, width, 3), np.uint8)
-        self.blank_image[:] = (255, 255, 255)
+        self.blank_image = Image.new('RGB', (height, width), (255, 255, 255))
         #self.makegrid(self.blank_image, cols, rows)
         #self.makecircle(self.blank_image)
         self.makecells(self.blank_image, cols, rows)
-        cv2.imshow('image', self.blank_image)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        self.blank_image.save("chart.jpg")
 
     def makegrid(self, img, cols, rows):
         # Add Row for Header
         rows += 1
-        height = img.shape[0]
-        width = img.shape[1]
+        height = img.height
+        width = img.width
         col_space = int(width / cols)
         row_space = int(height / rows)
         print("Height:{} Width:{} Col_Space:{} Row_Space:{}".format(height, width, col_space, row_space))
-
-        cv2.rectangle(img, (0, 0), (height, width), (0, 0, 0), 1)
 
         col_start = 0
         row_start = 0
@@ -38,13 +32,14 @@ class ImageGen:
     def makecells(self, img, cols, rows):
         # Add Row for Header
         rows += 1
-        height = img.shape[0]
-        width = img.shape[1]
+        height = img.height
+        width = img.width
         col_space = int(width / cols)
         row_space = int(height / rows)
         height = row_space * rows
         width = col_space * cols
-        self.blank_image = img = cv2.resize(img, (width, height))
+        self.blank_image = img = img.resize((width, height), Image.ANTIALIAS)
+        draw = ImageDraw.Draw(img)
         print("Height:{} Width:{} Col_Space:{} Row_Space:{}".format(height, width, col_space, row_space))
 
         col_start = 0
@@ -66,8 +61,8 @@ class ImageGen:
                 cells.append(self.makecell(col_start, row_start, col_space, row_space))
 
         for cell in cells:
-            pts = np.array(cell, np.int32)
-            cv2.polylines(img, [pts], True, (0, 255, 0))
+            t_cells = [tuple(l) for l in cell]
+            draw.polygon(t_cells, fill=(255,255,255,255), outline=(0, 0, 0))
             self.typeincell("B:{} L:{}".format(cell[3][0], cell[3][1]), self.blank_image, cell)
 
         #print(cells)
@@ -81,13 +76,19 @@ class ImageGen:
         return cell
 
     def typeincell(self, text, img, cell):
-        font = cv2.FONT_HERSHEY_DUPLEX
-        fontscale = .35
-        b = cell[3][1] - int(((cell[3][1] - cell[0][1]) / 2) - fontscale * 2)
-        l = cell[3][0] + 5
-        origin = (l, b)
+        fontsize = 15
+        font = ImageFont.truetype("Roboto-Regular.ttf", fontsize)
         color = (0, 0, 0)
-        cv2.putText(img, text, origin, font, fontscale, color)
+
+        draw = ImageDraw.Draw(img)
+        W = cell[1][0] - cell[0][0]
+        H = cell[3][1] - cell[0][1]
+        w, h = draw.textsize(text)
+        center_w = int((W - w) / 2)
+        center_h = int((H - h) / 2)
+        origin = (cell[0][0] + center_w, cell[0][1] + center_h)
+        #print(origin)
+        draw.text(origin, text, font=font, fill=(0, 0, 0))
 
     def makecircle(self, img):
         circle_dist_x = int(img.shape[1] / 2)
@@ -97,7 +98,11 @@ class ImageGen:
         cv2.ellipse(img, (circle_center_x, circle_center_y), (circle_dist_x, circle_dist_y), 0, 0, 360, (0, 0, 0), 1)
 
     def drawcol(self, img, start):
-        cv2.line(img, (start, 0), (start, img.shape[0]), (0, 0, 0), 1)
+        draw = ImageDraw.Draw(img)
+        line = ((start, 0), (start, img.height))
+        draw.line(line, fill=(0, 0, 0))
 
     def drawrow(self, img, start):
-        cv2.line(img, (0, start), (img.shape[1], start), (0, 0, 0), 1)
+        draw = ImageDraw.Draw(img)
+        line = ((0, start), (img.width, start))
+        draw.line(line, fill=(0, 0, 0))
