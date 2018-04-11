@@ -8,7 +8,7 @@ class ImageGen:
         self.blank_image[:] = (255, 255, 255)
         self.makegrid(self.blank_image, cols, rows)
         #self.makecircle(self.blank_image)
-        self.makecells(height, width, cols, rows)
+        self.makecells(self.blank_image, cols, rows)
         cv2.imshow('image', self.blank_image)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
@@ -35,7 +35,11 @@ class ImageGen:
             self.drawrow(img, row_start)
             row_start += row_space
 
-    def makecells(self, height, width, cols, rows):
+    def makecells(self, img, cols, rows):
+        # Add Row for Header
+        rows += 1
+        height = img.shape[0]
+        width = img.shape[1]
         col_space = int(width / cols)
         row_space = int(height / rows)
         print("Height:{} Width:{} Col_Space:{} Row_Space:{}".format(height, width, col_space, row_space))
@@ -43,32 +47,33 @@ class ImageGen:
         col_start = 0
         row_start = 0
 
-        tl = [0, 0]
-        tr = [col_space, 0 ]
-        bl = [0, row_space]
-        br = [col_space, row_space]
-        cells = [[tl, tr, br, bl]]
+        cells = []
+        cells.append(self.makecell(col_start, row_start, col_space, row_space))
 
         pts = np.array(cells[0], np.int32)
         #pts = np.array([[10, 5], [20, 30], [70, 20], [50, 10]], np.int32)
         #pts = pts.reshape((-1, 1, 2))
         cv2.polylines(self.blank_image, [pts], True, (0, 255, 0))
 
+        for i in range(cols):
+            col_start += col_space
+            for j in range(rows):
+                row_start += row_space
+                cells.append(self.makecell(col_start, row_start, col_space, row_space))
 
-        for i in range(rows):
-            row_start += row_space
-            for j in range(cols):
-                col_start += col_space
-                tl = [0, 0]
-                tr = [col_space, 0]
-                bl = [0, row_space]
-                br = [col_space, row_space]
-                cells = [[tl, tr, br, bl]]
-                pts = np.array(cells[0], np.int32)
-                cv2.polylines(self.blank_image, [pts], True, (0, 255, 0))
+        for cell in cells:
+            pts = np.array(cell, np.int32)
+            cv2.polylines(self.blank_image, [pts], True, (0, 255, 0))
 
         #print(cells)
 
+    def makecell(self, col_start, row_start, col_space, row_space):
+        tl = [col_start, row_start]
+        tr = [tl[0] + col_space, tl[1]]
+        bl = [tl[0], tl[1] + row_space]
+        br = [tl[0] + col_space, tl[1] + row_space]
+        cell = [[tl, tr, br, bl]]
+        return cell
 
     def makecircle(self, img):
         circle_dist_x = int(img.shape[1] / 2)
