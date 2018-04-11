@@ -23,4 +23,4 @@ class Main:
 
 if __name__ == "__main__":
     m = Main()
-    ig = ImageGen(10000, 10000, m.getballistics())
+    ig = ImageGen(m.getballistics())

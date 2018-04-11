@@ -3,23 +3,28 @@ from GridCell import GridCell
 
 
 class ImageGen:
-    def __init__(self, height, width, data):
+    def __init__(self, data, height=5000, width=5000):
+        print("Creating Blank Images...")
         self.blank_image = Image.new('RGB', (height, width), (255, 255, 255))
         self.grid_image = Image.new('RGB', (height, width), (255, 255, 255))
         #self.makegrid(self.blank_image, cols, rows)
+
+        print("Populating Images...")
         self.makecircle(self.blank_image)
         self.makecells(self.grid_image, data)
 
         sqside = int((self.blank_image.width / 2) * 1.41421)
 
         self.grid_image = self.grid_image.resize((sqside, sqside), Image.ANTIALIAS)
-        print("Saving Image")
 
         grid_origin_x = int((self.blank_image.width - self.grid_image.width) / 2)
         grid_origin_y = int((self.blank_image.height - self.grid_image.height) / 2)
 
+        print("Combining Images...")
         self.blank_image.paste(self.grid_image, (grid_origin_x, grid_origin_y))
-        self.blank_image.save("chart.jpg")
+        print("Saving Image...")
+        self.blank_image.save("chart.pdf")
+        print("Image Saved")
 
     def makegrid(self, img, cols, rows):
         # Add Row for Header
@@ -54,7 +59,7 @@ class ImageGen:
         width = col_space * cols
         self.grid_image = img = img.resize((width + 1, height +1), Image.ANTIALIAS)
 
-        print("Height:{} Width:{} Cols:{} Col_Space:{} Rows: {} Row_Space:{}".format(height, width, cols, col_space, rows, row_space))
+        # print("Height:{} Width:{} Cols:{} Col_Space:{} Rows: {} Row_Space:{}".format(height, width, cols, col_space, rows, row_space))
 
         col_start = 0
         row_start = 0
@@ -92,7 +97,10 @@ class ImageGen:
                 cell.typeincell("{}".format(list(data.columns.values)[cell.col_index]))
                 #print(list(data.columns.values)[cell.col_index])
             else:
-                row_color = (255, 255, 255, 255)
+                if cell.row_index % 2 == 0:
+                    row_color = (0, 255, 0)
+                else:
+                    row_color = (255, 255, 255)
 
                 cell.drawcell(background=row_color)
                 # cell.typeincell("B:{} L:{}".format(cell.cell[3][0], cell.cell[3][1]))
