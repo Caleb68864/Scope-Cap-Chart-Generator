@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
 from GridCell import GridCell
-
+import wx
+import PIL
 
 class ImageGen:
     def __init__(self, data, height=5000, width=5000):
@@ -22,8 +23,40 @@ class ImageGen:
 
         print("Combining Images...")
         self.blank_image.paste(self.grid_image, (grid_origin_x, grid_origin_y))
+        print("Images Combined")
+
+    def getimage(self):
+        return self.blank_image
+
+    def getwximage(self):
+        myPilImage = self.blank_image
+        copyAlpha = True
+        hasAlpha = myPilImage.mode[-1] == 'A'
+        if copyAlpha and hasAlpha:  # Make sure there is an alpha layer copy.
+
+            myWxImage = wx.EmptyImage(*myPilImage.size)
+            myPilImageCopyRGBA = myPilImage.copy()
+            myPilImageCopyRGB = myPilImageCopyRGBA.convert('RGB')  # RGBA --> RGB
+            myPilImageRgbData = myPilImageCopyRGB.tostring()
+            myWxImage.SetData(myPilImageRgbData)
+            myWxImage.SetAlphaData(myPilImageCopyRGBA.tobytes()[3::4])  # Create layer and insert alpha values.
+
+        else:  # The resulting image will not have alpha.
+
+            myWxImage = wx.Image(*myPilImage.size)
+            myPilImageCopy = myPilImage.copy()
+            myPilImageCopyRGB = myPilImageCopy.convert('RGB')  # Discard any alpha from the PIL image.
+            myPilImageRgbData = myPilImageCopyRGB.tobytes()
+            myWxImage.SetData(myPilImageRgbData)
+
+        return myWxImage
+
+    def getwxbitmap(self):
+        return wx.Bitmap(self.getwximage())
+
+    def imgsave(self, filename="chart.pdf"):
         print("Saving Image...")
-        self.blank_image.save("chart.pdf")
+        self.blank_image.save(filename)
         print("Image Saved")
 
     def makegrid(self, img, cols, rows):

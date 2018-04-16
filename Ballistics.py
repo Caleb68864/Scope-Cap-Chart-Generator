@@ -1,8 +1,46 @@
 import pandas as pd
+from pathlib import Path
+
 
 class Ballistics:
-    def __init__(self):
-        pass
+    def __init__(self, csv='./ballistics.csv', min_range=-1, max_range=-1, range_col='Range', cols=[]):
+        self.ballistics = pd.read_csv(csv)
+        self.range_col = range_col
+        self.setrange(min_range, max_range)
+        self.selectcolumns(cols)
+
+    def setrange(self, min_range=-1, max_range=-1):
+        min_ranges = pd.DataFrame()
+        max_ranges = pd.DataFrame()
+
+        if max_range > 0:
+            max_ranges = self.ballistics[self.range_col] <= max_range
+        if min_range > 0:
+            min_ranges = self.ballistics[self.range_col] >= min_range
+
+        if not min_ranges.empty and not max_ranges.empty:
+            self.ballistics = self.ballistics[min_ranges & max_ranges]
+        elif not min_ranges.empty:
+            self.ballistics = self.ballistics[min_ranges]
+        elif not max_ranges.empty:
+            self.ballistics = self.ballistics[max_ranges]
+
+    def selectcolumns(self, cols):
+        if len(cols) > 0:
+            self.ballistics = self.ballistics.iloc[:, cols]
+            #print(self.ballistics.iloc[:, cols])
+
+    def setrangecol(self, range_col):
+        self.range_col(range_col)
+
+    def genballisticscsv(self):
+        csv_file = Path("./ballistics.csv")
+        if not csv_file.is_file():
+            file = open(csv_file, 'w')
+            file.write('Range,Velocity,Energy,Trajectory,MOA,MILS')
+            file.close()
+        else:
+            print("Ballistics File Exists")
 
     def getballistics(self):
         df1 = pd.read_csv('./ballistics.csv')
