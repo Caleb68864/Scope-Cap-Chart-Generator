@@ -4,6 +4,7 @@ Python program for generating range charts to place inside of your scope caps
 #### ToDo
  * Add Functionality to GUI
     * Select Columns - Back end code already done
+        * Need to figure out how to programtically add check boxes to Sizer
     * Save Config file from chart colors and ranges
     * Load from Excel file 
     * Set Font Color
