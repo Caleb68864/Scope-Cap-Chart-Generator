@@ -2,6 +2,7 @@ test.py
 paths.txt
 servers.txt
 chart.jpg
+chart.pdf
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
