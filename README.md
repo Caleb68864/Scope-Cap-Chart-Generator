@@ -11,8 +11,10 @@ Python program for generating range charts to place inside of your scope caps
 
 #### Screenshots
 Ballistics Tab
+
 ![Ballistics Tab](https://github.com/Caleb68864/Scope-Cap-Chart-Generator/blob/master/screenshots/Ballistics_Tab.JPG?raw=true)
 
 
 Preview Tab
+
 ![Preview Tab](https://github.com/Caleb68864/Scope-Cap-Chart-Generator/blob/master/screenshots/Preview_Tab.JPG?raw=true)
