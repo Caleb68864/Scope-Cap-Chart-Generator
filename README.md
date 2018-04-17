@@ -16,6 +16,3 @@ Ballistics Tab
 
 Preview Tab
 ![Preview Tab](https://github.com/Caleb68864/Scope-Cap-Chart-Generator/blob/master/screenshots/Preview_Tab.JPG?raw=true)
-
-Exported Chart
-!{Exported Chart](https://github.com/Caleb68864/Scope-Cap-Chart-Generator/blob/master/screenshots/chart.jpg?raw=true)
