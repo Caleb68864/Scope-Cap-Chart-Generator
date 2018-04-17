@@ -1,7 +1,11 @@
 # Scope-Cap-Chart-Generator
-Python program for generating a chart to place inside of your scope caps
+Python program for generating range charts to place inside of your scope caps
 
 #### ToDo
- - Create GUI
- - Export to PDF with dimensions
- - Choose columns and data sent to grid
+ * Add Functionality to GUI
+    * Select Columns - Back end code already done
+    * Save Config file from chart colors and ranges
+    * Load from Excel file 
+    * Set Font Color
+ * Export to PDF with scope dimensions
+
