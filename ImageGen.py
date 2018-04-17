@@ -4,29 +4,62 @@ import wx
 import PIL
 
 class ImageGen:
-    def __init__(self, data, height=5000, width=5000):
-        print("Creating Blank Images...")
-        self.blank_image = Image.new('RGB', (height, width), (255, 255, 255))
-        self.grid_image = Image.new('RGB', (height, width), (255, 255, 255))
-        #self.makegrid(self.blank_image, cols, rows)
+    def __init__(self, data, callback, height=5000, width=5000):
+        self.callback = callback
 
-        print("Populating Images...")
-        self.makecircle(self.blank_image)
-        self.makecells(self.grid_image, data)
+        self.height = height
+        self.width = width
+        self.data = data
 
-        sqside = int((self.blank_image.width / 2) * 1.41421)
+        self.header_color = (255, 255, 0)
+        self.row_color = (255, 255, 255)
+        self.alt_row_color = (0, 255, 0)
 
-        self.grid_image = self.grid_image.resize((sqside, sqside), Image.ANTIALIAS)
+    def genimage(self):
+        print("Creating Blank Image...")
+        self.callback("Creating Blank Image...")
+        self.blank_image = Image.new('RGB', (self.height, self.width), (255, 255, 255))
+        if not self.data.empty:
+            print("Creating Grid Image...")
+            self.callback("Creating Grid Image...")
+            self.grid_image = Image.new('RGB', (self.height, self.width), (255, 255, 255))
+            #self.makegrid(self.blank_image, cols, rows)
 
-        grid_origin_x = int((self.blank_image.width - self.grid_image.width) / 2)
-        grid_origin_y = int((self.blank_image.height - self.grid_image.height) / 2)
+            print("Populating Images...")
+            self.callback("Populating Images...")
+            self.makecircle(self.blank_image)
+            self.makecells(self.grid_image, self.data)
 
-        print("Combining Images...")
-        self.blank_image.paste(self.grid_image, (grid_origin_x, grid_origin_y))
-        print("Images Combined")
+            sqside = int((self.blank_image.width / 2) * 1.41421)
+
+            self.grid_image = self.grid_image.resize((sqside, sqside), Image.ANTIALIAS)
+
+            grid_origin_x = int((self.blank_image.width - self.grid_image.width) / 2)
+            grid_origin_y = int((self.blank_image.height - self.grid_image.height) / 2)
+
+            print("Combining Images...")
+            self.callback("Combining Images...")
+            self.blank_image.paste(self.grid_image, (grid_origin_x, grid_origin_y))
+            print("Images Combined")
+            self.callback("Images Combined.")
+        else:
+            print("Data Empty")
+            self.callback("Data Empty Please Load A Ballistics File.")
 
     def getimage(self):
         return self.blank_image
+
+    def setheadercolor(self, color):
+        self.header_color = tuple(color)
+        self.callback("Header Color:".format(self.header_color))
+
+    def setrowcolor(self, color):
+        self.row_color = tuple(color)
+        self.callback("Header Color:".format(self.row_color))
+
+    def setaltrowcolor(self, color):
+        self.alt_row_color = tuple(color)
+        self.callback("Header Color:".format(self.alt_row_color))
 
     def getwximage(self):
         myPilImage = self.blank_image
@@ -56,8 +89,10 @@ class ImageGen:
 
     def imgsave(self, filename="chart.pdf"):
         print("Saving Image...")
+        self.callback("Saving Image...")
         self.blank_image.save(filename)
         print("Image Saved")
+        self.callback("Image Saved.")
 
     def makegrid(self, img, cols, rows):
         # Add Row for Header
@@ -125,15 +160,14 @@ class ImageGen:
         for cell in cells:
             # Change Background of Header Row and Populate
             if cell.row_index == 0:
-                row_color = (255, 255, 0)
-                cell.drawcell(background=row_color)
+                cell.drawcell(background=self.header_color)
                 cell.typeincell("{}".format(list(data.columns.values)[cell.col_index]))
                 #print(list(data.columns.values)[cell.col_index])
             else:
                 if cell.row_index % 2 == 0:
-                    row_color = (0, 255, 0)
+                    row_color = self.alt_row_color
                 else:
-                    row_color = (255, 255, 255)
+                    row_color = self.row_color
 
                 cell.drawcell(background=row_color)
                 # cell.typeincell("B:{} L:{}".format(cell.cell[3][0], cell.cell[3][1]))

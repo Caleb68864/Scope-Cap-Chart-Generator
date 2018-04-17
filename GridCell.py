@@ -29,13 +29,24 @@ class GridCell:
 
         # Sizing Text to Fit Cell
         # portion of image width you want text width to be
-        img_fraction = 0.5
-        while font.getsize(text)[1] < img_fraction * H:
+        h_img_fraction = 0.5
+        w_img_fraction = 0.85
+
+        while font.getsize(text)[1] < h_img_fraction * H:
             # iterate until the text size is just larger than the criteria
             fontsize += 1
             font = ImageFont.truetype("Roboto-Regular.ttf", fontsize)
         fontsize -= 1
         font = ImageFont.truetype("Roboto-Regular.ttf", fontsize)
+
+        while font.getsize(text)[0] > W * w_img_fraction:
+            # iterate until the text size is just larger than the criteria
+            fontsize -= 1
+            font = ImageFont.truetype("Roboto-Regular.ttf", fontsize)
+            #print("Decreasing Width:", font.getsize(text))
+        fontsize -= 1
+        font = ImageFont.truetype("Roboto-Regular.ttf", fontsize)
+
 
         # Centering Text
         w, h = font.getsize(text)
