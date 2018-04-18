@@ -9,6 +9,10 @@ from DataTable import DataTable
 class Main(wx.Frame):
     def __init__(self, parent):
         FrmMain.__init__(self, parent)
+
+        ico = wx.Icon('sccg.ico', wx.BITMAP_TYPE_ICO)
+        self.SetIcon(ico)
+
         self.ballistics = Ballistics()
         self.ig = ""
         self.refresh()
