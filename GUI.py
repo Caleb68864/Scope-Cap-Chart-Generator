@@ -91,16 +91,8 @@ class FrmMain ( wx.Frame ):
 		self.cbSelectAll = wx.CheckBox( self.panelBallistics, wx.ID_ANY, u"Select All", wx.DefaultPosition, wx.DefaultSize, 0 )
 		szSelects.Add( self.cbSelectAll, 0, wx.ALL, 5 )
 		
-		self.cbSelectNone = wx.CheckBox( self.panelBallistics, wx.ID_ANY, u"Select None", wx.DefaultPosition, wx.DefaultSize, 0 )
-		szSelects.Add( self.cbSelectNone, 0, wx.ALL, 5 )
-		
 		
 		szBallistics.Add( szSelects, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 6 ), wx.EXPAND, 5 )
-		
-		szColChecks = wx.BoxSizer( wx.HORIZONTAL )
-		
-		
-		szBallistics.Add( szColChecks, wx.GBPosition( 4, 0 ), wx.GBSpan( 1, 1 ), wx.EXPAND, 5 )
 		
 		self.gridBallistics = wx.grid.Grid( self.panelBallistics, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.ALWAYS_SHOW_SB|wx.HSCROLL|wx.VSCROLL )
 		
@@ -134,13 +126,13 @@ class FrmMain ( wx.Frame ):
 		
 		# Cell Defaults
 		self.gridBallistics.SetDefaultCellAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
-		szBallistics.Add( self.gridBallistics, wx.GBPosition( 5, 0 ), wx.GBSpan( 1, 6 ), wx.ALL|wx.EXPAND, 5 )
+		szBallistics.Add( self.gridBallistics, wx.GBPosition( 4, 0 ), wx.GBSpan( 1, 6 ), wx.ALL|wx.EXPAND, 5 )
 		
 		
 		szBallistics.AddGrowableCol( 1 )
 		szBallistics.AddGrowableCol( 3 )
 		szBallistics.AddGrowableCol( 5 )
-		szBallistics.AddGrowableRow( 5 )
+		szBallistics.AddGrowableRow( 4 )
 		
 		self.panelBallistics.SetSizer( szBallistics )
 		self.panelBallistics.Layout()
@@ -243,7 +235,6 @@ class FrmMain ( wx.Frame ):
 		self.spinCtrl_Step.Bind( wx.EVT_TEXT, self.refresh )
 		self.spinCtrl_Step.Bind( wx.EVT_TEXT_ENTER, self.refresh )
 		self.cbSelectAll.Bind( wx.EVT_CHECKBOX, self.cbSelectAll_Click )
-		self.cbSelectNone.Bind( wx.EVT_CHECKBOX, self.cbSelectNone_Click )
 		self.btnPreview.Bind( wx.EVT_BUTTON, self.btnPreview_Click )
 		self.btnExport.Bind( wx.EVT_BUTTON, self.btnExport_Click )
 	
@@ -277,9 +268,6 @@ class FrmMain ( wx.Frame ):
 	
 	
 	def cbSelectAll_Click( self, event ):
-		event.Skip()
-	
-	def cbSelectNone_Click( self, event ):
 		event.Skip()
 	
 	def btnPreview_Click( self, event ):

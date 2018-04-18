@@ -15,6 +15,7 @@ class Main(wx.Frame):
 
         self.ballistics = Ballistics()
         self.ig = ""
+        self.cbs = []
         self.refresh()
         self.Show(True)
 
@@ -30,11 +31,16 @@ class Main(wx.Frame):
         self.gridBallistics.SetTable(self.table, True)
         self.gridBallistics.AutoSizeColumns()
         self.gridBallistics.AutoSizeRows()
-        self.gridBallistics.Refresh()
 
         for column in list(self.ballistics.ballistics.columns.values):
-            print(column)
-            #szColCheck.Add(self.m_toggleBtn1, 0, wx.ALL, 5)
+            #print(column)
+            cb = wx.CheckBox(self.panelBallistics, wx.ID_ANY, column, wx.DefaultPosition, wx.DefaultSize, 0)
+            self.cbs.append(cb)
+            # cb.SetSizer(self.panelBallistics.GetSizer())
+            szSelects.Add(cb, 0, wx.ALL, 5)
+
+        self.gridBallistics.Refresh()
+        self.panelBallistics.Layout()
 
     def setstatus(self, msg):
         self.statusBar.PushStatusText(msg)
@@ -59,6 +65,7 @@ class Main(wx.Frame):
             bmap = wx.Bitmap(self.ig.getwximage().Scale(s, s, wx.IMAGE_QUALITY_HIGH))
             self.imgPreview.SetBitmap(bmap)
             self.imgPreview.Refresh()
+            self.imgPreview.Layout()
             self.setstatus("Preview Loaded.")
             # print("BitMap Set")
         else:
@@ -105,10 +112,12 @@ class Main(wx.Frame):
             self.setstatus("No File Selected.")
 
     def cbSelectAll_Click(self, instance):
-        self.cbSelectNone.SetValue(False)
-
-    def cbSelectNone_Click(self, instance):
-        self.cbSelectAll.SetValue(False)
+        if instance.GetEventObject().IsChecked():
+            for cb in self.cbs:
+                cb.SetValue(True)
+        else:
+            for cb in self.cbs:
+                cb.SetValue(False)
 
 
 if __name__ == "__main__":
