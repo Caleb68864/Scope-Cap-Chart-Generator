@@ -151,11 +151,16 @@ class FrmMain ( wx.Frame ):
 		szPreview.SetFlexibleDirection( wx.BOTH )
 		szPreview.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 		
+		szPreviewButtons = wx.BoxSizer( wx.HORIZONTAL )
+		
 		self.btnPreview = wx.Button( self.panelPreview, wx.ID_ANY, u"Preview", wx.DefaultPosition, wx.DefaultSize, 0 )
-		szPreview.Add( self.btnPreview, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
+		szPreviewButtons.Add( self.btnPreview, 0, wx.ALL, 5 )
 		
 		self.btnExport = wx.Button( self.panelPreview, wx.ID_ANY, u"Export", wx.DefaultPosition, wx.DefaultSize, 0 )
-		szPreview.Add( self.btnExport, wx.GBPosition( 0, 1 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.EXPAND, 5 )
+		szPreviewButtons.Add( self.btnExport, 0, wx.ALL, 5 )
+		
+		
+		szPreview.Add( szPreviewButtons, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 6 ), wx.EXPAND, 5 )
 		
 		self.m_staticText6 = wx.StaticText( self.panelPreview, wx.ID_ANY, u"Header Color:", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText6.Wrap( -1 )
@@ -178,11 +183,32 @@ class FrmMain ( wx.Frame ):
 		self.cpAltRow = wx.ColourPickerCtrl( self.panelPreview, wx.ID_ANY, wx.Colour( 0, 255, 0 ), wx.DefaultPosition, wx.DefaultSize, wx.CLRP_DEFAULT_STYLE )
 		szPreview.Add( self.cpAltRow, wx.GBPosition( 1, 5 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.EXPAND, 5 )
 		
+		self.m_staticText10 = wx.StaticText( self.panelPreview, wx.ID_ANY, u"Header Font Color:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText10.Wrap( -1 )
+		szPreview.Add( self.m_staticText10, wx.GBPosition( 2, 0 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
+		
+		self.cpHeaderFont = wx.ColourPickerCtrl( self.panelPreview, wx.ID_ANY, wx.BLACK, wx.DefaultPosition, wx.DefaultSize, wx.CLRP_DEFAULT_STYLE )
+		szPreview.Add( self.cpHeaderFont, wx.GBPosition( 2, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		
+		self.m_staticText8 = wx.StaticText( self.panelPreview, wx.ID_ANY, u"Font Color:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText8.Wrap( -1 )
+		szPreview.Add( self.m_staticText8, wx.GBPosition( 2, 2 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.ALIGN_CENTER_VERTICAL|wx.ALIGN_RIGHT, 5 )
+		
+		self.cpFont = wx.ColourPickerCtrl( self.panelPreview, wx.ID_ANY, wx.BLACK, wx.DefaultPosition, wx.DefaultSize, wx.CLRP_DEFAULT_STYLE )
+		szPreview.Add( self.cpFont, wx.GBPosition( 2, 3 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		
+		self.m_staticText9 = wx.StaticText( self.panelPreview, wx.ID_ANY, u"Line Color:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText9.Wrap( -1 )
+		szPreview.Add( self.m_staticText9, wx.GBPosition( 2, 4 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		
+		self.cpLine = wx.ColourPickerCtrl( self.panelPreview, wx.ID_ANY, wx.BLACK, wx.DefaultPosition, wx.DefaultSize, wx.CLRP_DEFAULT_STYLE )
+		szPreview.Add( self.cpLine, wx.GBPosition( 2, 5 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
+		
 		self.imgPreview = wx.StaticBitmap( self.panelPreview, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, 0 )
-		szPreview.Add( self.imgPreview, wx.GBPosition( 2, 0 ), wx.GBSpan( 1, 6 ), wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5 )
+		szPreview.Add( self.imgPreview, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 6 ), wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
 		
-		szPreview.AddGrowableRow( 2 )
+		szPreview.AddGrowableRow( 3 )
 		
 		self.panelPreview.SetSizer( szPreview )
 		self.panelPreview.Layout()

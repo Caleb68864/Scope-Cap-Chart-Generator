@@ -40,6 +40,9 @@ class Main(wx.Frame):
         self.ig.setheadercolor(self.cpHeader.GetColour())
         self.ig.setrowcolor(self.cpRow.GetColour())
         self.ig.setaltrowcolor(self.cpAltRow.GetColour())
+        self.ig.setheaderfontcolor(self.cpHeaderFont.GetColour())
+        self.ig.setfontcolor(self.cpFont.GetColour())
+        self.ig.setlinecolor(self.cpLine.GetColour())
         self.ig.genimage()
 
     def btnPreview_Click(self, instance):

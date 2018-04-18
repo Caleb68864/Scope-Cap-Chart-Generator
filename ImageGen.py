@@ -14,6 +14,9 @@ class ImageGen:
         self.header_color = (255, 255, 0)
         self.row_color = (255, 255, 255)
         self.alt_row_color = (0, 255, 0)
+        self.headerfontcolor = (0, 0, 0)
+        self.fontcolor = (0, 0, 0)
+        self.linecolor = (0, 0, 0)
 
     def genimage(self):
         print("Creating Blank Image...")
@@ -55,11 +58,23 @@ class ImageGen:
 
     def setrowcolor(self, color):
         self.row_color = tuple(color)
-        self.callback("Header Color:".format(self.row_color))
+        self.callback("Row Color:".format(self.row_color))
 
     def setaltrowcolor(self, color):
         self.alt_row_color = tuple(color)
-        self.callback("Header Color:".format(self.alt_row_color))
+        self.callback("Alt Row Color:".format(self.alt_row_color))
+
+    def setlinecolor(self, color):
+        self.linecolor = tuple(color)
+        self.callback("Line Color:".format(self.alt_row_color))
+
+    def setheaderfontcolor(self, color):
+        self.headerfontcolor = tuple(color)
+        self.callback("Header Font Color:".format(self.alt_row_color))
+
+    def setfontcolor(self, color):
+        self.fontcolor = tuple(color)
+        self.callback("Font Color:".format(self.alt_row_color))
 
     def getwximage(self):
         myPilImage = self.blank_image
@@ -160,8 +175,8 @@ class ImageGen:
         for cell in cells:
             # Change Background of Header Row and Populate
             if cell.row_index == 0:
-                cell.drawcell(background=self.header_color)
-                cell.typeincell("{}".format(list(data.columns.values)[cell.col_index]))
+                cell.drawcell(self.header_color, self.linecolor)
+                cell.typeincell("{}".format(list(data.columns.values)[cell.col_index]), self.headerfontcolor)
                 #print(list(data.columns.values)[cell.col_index])
             else:
                 if cell.row_index % 2 == 0:
@@ -169,11 +184,11 @@ class ImageGen:
                 else:
                     row_color = self.row_color
 
-                cell.drawcell(background=row_color)
+                cell.drawcell(row_color, self.linecolor)
                 # cell.typeincell("B:{} L:{}".format(cell.cell[3][0], cell.cell[3][1]))
 
                 #print(cell.col_index, cell.row_index, data.iloc[cell.row_index - 1, cell.col_index])
-                cell.typeincell("{}".format(data.iloc[cell.row_index - 1, cell.col_index]))
+                cell.typeincell("{}".format(data.iloc[cell.row_index - 1, cell.col_index]), self.fontcolor)
 
         #print(cells)
 
