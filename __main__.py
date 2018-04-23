@@ -10,22 +10,20 @@ class Main(wx.Frame):
     def __init__(self, parent):
         FrmMain.__init__(self, parent)
 
+        self.ballistics = Ballistics()
+        self.ig = ""
+        self.cbs = []
+        self.cols = []
+
         ico = wx.Icon('sccg.ico', wx.BITMAP_TYPE_ICO)
         self.SetIcon(ico)
 
         gsz = self.panelBallistics.GetSizer()
         self.szSelects = wx.BoxSizer(wx.HORIZONTAL)
-        cbSelectAll = wx.CheckBox(self.panelBallistics, wx.ID_ANY, u"Select All", wx.DefaultPosition,
-                                  wx.DefaultSize, 0)
-        cbSelectAll.Bind(wx.EVT_CHECKBOX, self.cbSelectAll_Click)
-        self.szSelects.Add(cbSelectAll, 0, wx.ALL, 5)
         gsz.Add(self.szSelects, wx.GBPosition(3, 0), wx.GBSpan(1, 6), wx.EXPAND, 5)
         self.gridBallistics.Refresh()
         self.panelBallistics.Layout()
 
-        self.ballistics = Ballistics()
-        self.ig = ""
-        self.cbs = []
         self.refresh()
         self.Show(True)
 
@@ -34,22 +32,13 @@ class Main(wx.Frame):
             self.spinCtrl_Max_Range.SetValue(self.spinCtrl_Min_Range.GetValue())
 
         self.ballistics.reset()
+
         self.ballistics.setrange(self.spinCtrl_Min_Range.GetValue(), self.spinCtrl_Max_Range.GetValue(), self.spinCtrl_Step.GetValue())
-        # cols = [0, 2]
-        # b.selectcolumns(cols)
+        self.ballistics.selectcolumns(self.cols)
         self.table = DataTable(self.ballistics.ballistics)
         self.gridBallistics.SetTable(self.table, True)
         self.gridBallistics.AutoSizeColumns()
         self.gridBallistics.AutoSizeRows()
-
-
-
-        for column in list(self.ballistics.ballistics.columns.values):
-            #print(column)
-            cb = wx.CheckBox(self.panelBallistics, wx.ID_ANY, column, wx.DefaultPosition, wx.DefaultSize, 0)
-            self.cbs.append(cb)
-            # cb.SetSizer(self.panelBallistics.GetSizer())
-            self.szSelects.Add(cb, 0, wx.ALL, 5)
 
         self.gridBallistics.Refresh()
         self.panelBallistics.Layout()
@@ -66,6 +55,28 @@ class Main(wx.Frame):
         self.ig.setfontcolor(self.cpFont.GetColour())
         self.ig.setlinecolor(self.cpLine.GetColour())
         self.ig.genimage()
+
+    def gencols(self):
+        for child in self.szSelects.GetChildren():
+            child.DeleteWindows()
+
+        cbSelectAll = wx.CheckBox(self.panelBallistics, wx.ID_ANY, u"Select All", wx.DefaultPosition,
+                                  wx.DefaultSize, 0)
+        cbSelectAll.Bind(wx.EVT_CHECKBOX, self.cbSelectAll_Click)
+        self.szSelects.Add(cbSelectAll, 0, wx.ALL, 5)
+
+        for column in list(self.ballistics.orig_ballistics.columns.values):
+            # print(column)
+            cb = wx.CheckBox(self.panelBallistics, wx.ID_ANY, column, wx.DefaultPosition, wx.DefaultSize, 0)
+            cb.SetName(column)
+            cb.SetValue(True)
+            cb.Bind(wx.EVT_CHECKBOX, self.cbSelect_Click)
+            self.cbs.append(cb)
+            self.szSelects.Add(cb, 0, wx.ALL, 5)
+
+
+        self.gridBallistics.Refresh()
+        self.panelBallistics.Layout()
 
     def btnPreview_Click(self, instance):
         if not self.ballistics.ballistics.empty:
@@ -118,6 +129,7 @@ class Main(wx.Frame):
     def btnLoad_Click(self, instance):
         if self.m_filePicker1.GetPath() != "":
             self.ballistics = Ballistics(self.m_filePicker1.GetPath())
+            self.gencols()
             self.refresh()
         else:
             print("No File Selected")
@@ -130,6 +142,17 @@ class Main(wx.Frame):
         else:
             for cb in self.cbs:
                 cb.SetValue(False)
+        self.cbSelect_Click(instance)
+
+    def cbSelect_Click(self, instance):
+        self.cols = []
+        for index, cb in enumerate(self.cbs):
+            if cb.IsChecked():
+                print(cb.GetName(), index)
+                self.cols.append(index)
+        print(self.cols)
+        self.refresh()
+
 
 
 if __name__ == "__main__":
