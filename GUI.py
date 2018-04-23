@@ -127,8 +127,8 @@ class FrmMain ( wx.Frame ):
 		# Cell Defaults
 		self.gridBallistics.SetDefaultCellAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
 		szBallistics.Add( self.gridBallistics, wx.GBPosition( 4, 0 ), wx.GBSpan( 1, 8 ), wx.ALL|wx.EXPAND, 5 )
-		
-		
+
+
 		szBallistics.AddGrowableCol( 1 )
 		szBallistics.AddGrowableCol( 3 )
 		szBallistics.AddGrowableCol( 5 )

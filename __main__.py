@@ -11,6 +11,7 @@ class Main(wx.Frame):
         FrmMain.__init__(self, parent)
 
         self.ballistics = Ballistics()
+        self.table = DataTable(self.ballistics.ballistics)
         self.ig = ""
         self.cbs = []
         self.cols = []
@@ -39,8 +40,8 @@ class Main(wx.Frame):
         self.gridBallistics.SetTable(self.table, True)
         self.gridBallistics.AutoSizeColumns()
         self.gridBallistics.AutoSizeRows()
-
         self.gridBallistics.Refresh()
+
         self.panelBallistics.Layout()
 
     def setstatus(self, msg):

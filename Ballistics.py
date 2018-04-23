@@ -6,7 +6,7 @@ class Ballistics:
     def __init__(self, csv='./ballistics.csv', min_range=-1, max_range=-1, step=-1, range_col='Range', cols=[]):
         csv_file = Path(csv)
         if csv_file.is_file():
-            print("File Found")
+            #print("File Found")
             self.orig_ballistics = self.ballistics = pd.read_csv(csv)
 
         else:
