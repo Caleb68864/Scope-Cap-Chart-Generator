@@ -57,6 +57,7 @@ class Main(wx.Frame):
         self.ig.genimage()
 
     def gencols(self):
+        self.cbs = []
         for child in self.szSelects.GetChildren():
             child.DeleteWindows()
 
@@ -148,9 +149,9 @@ class Main(wx.Frame):
         self.cols = []
         for index, cb in enumerate(self.cbs):
             if cb.IsChecked():
-                print(cb.GetName(), index)
+                #print(cb.GetName(), index)
                 self.cols.append(index)
-        print(self.cols)
+        #print(self.cols)
         self.refresh()
 
 
