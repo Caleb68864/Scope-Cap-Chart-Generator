@@ -127,8 +127,8 @@ class FrmMain ( wx.Frame ):
 		# Cell Defaults
 		self.gridBallistics.SetDefaultCellAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
 		szBallistics.Add( self.gridBallistics, wx.GBPosition( 4, 0 ), wx.GBSpan( 1, 8 ), wx.ALL|wx.EXPAND, 5 )
-
-
+		
+		
 		szBallistics.AddGrowableCol( 1 )
 		szBallistics.AddGrowableCol( 3 )
 		szBallistics.AddGrowableCol( 5 )
@@ -227,6 +227,7 @@ class FrmMain ( wx.Frame ):
 		self.btnRefresh.Bind( wx.EVT_BUTTON, self.btnRefresh_Click )
 		self.btnReset.Bind( wx.EVT_BUTTON, self.btnReset_Click )
 		self.btnClear.Bind( wx.EVT_BUTTON, self.btnClear_Click )
+		self.cboxRangeCol.Bind( wx.EVT_COMBOBOX, self.cboxRangeCol_Change )
 		self.spinCtrl_Min_Range.Bind( wx.EVT_SPINCTRL, self.refresh )
 		self.spinCtrl_Min_Range.Bind( wx.EVT_TEXT, self.refresh )
 		self.spinCtrl_Min_Range.Bind( wx.EVT_TEXT_ENTER, self.refresh )
@@ -255,6 +256,9 @@ class FrmMain ( wx.Frame ):
 		event.Skip()
 	
 	def btnClear_Click( self, event ):
+		event.Skip()
+	
+	def cboxRangeCol_Change( self, event ):
 		event.Skip()
 	
 	def refresh( self, event ):

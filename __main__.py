@@ -32,10 +32,9 @@ class Main(wx.Frame):
             self.spinCtrl_Max_Range.SetValue(self.spinCtrl_Min_Range.GetValue())
 
         self.ballistics.reset()
-
+        self.ballistics.setrangecol(self.cboxRangeCol.GetStringSelection())
         self.ballistics.setrange(self.spinCtrl_Min_Range.GetValue(), self.spinCtrl_Max_Range.GetValue(), self.spinCtrl_Step.GetValue())
         self.ballistics.selectcolumns(self.cols)
-        self.ballistics.setrangecol(self.cboxRangeCol.GetStringSelection())
         self.table = DataTable(self.ballistics.ballistics)
         self.gridBallistics.SetTable(self.table, True)
         self.gridBallistics.AutoSizeColumns()
@@ -78,7 +77,7 @@ class Main(wx.Frame):
             self.szSelects.Add(cb, 0, wx.ALL, 5)
 
         self.cboxRangeCol.SetItems(self.ballistics.orig_ballistics.columns.values)
-
+        self.cboxRangeCol.SetSelection(0)
 
         self.gridBallistics.Refresh()
         self.panelBallistics.Layout()
@@ -116,6 +115,10 @@ class Main(wx.Frame):
         self.refresh()
 
     def btnClear_Click(self, instance):
+        self.cbs = []
+        for child in self.szSelects.GetChildren():
+            child.DeleteWindows()
+        self.cboxRangeCol.Clear()
         self.spinCtrl_Min_Range.SetValue(0)
         self.spinCtrl_Max_Range.SetValue(0)
         self.spinCtrl_Step.SetValue(0)
@@ -125,6 +128,7 @@ class Main(wx.Frame):
         self.refresh()
 
     def btnReset_Click(self, instance):
+        self.cboxRangeCol.SetSelection(0)
         self.spinCtrl_Min_Range.SetValue(0)
         self.spinCtrl_Max_Range.SetValue(0)
         self.spinCtrl_Step.SetValue(0)
@@ -158,6 +162,9 @@ class Main(wx.Frame):
         #print(self.cols)
         self.refresh()
 
+    def cboxRangeCol_Change(self, instance):
+        print(instance.GetEventObject().GetStringSelection())
+        self.refresh()
 
 
 if __name__ == "__main__":
