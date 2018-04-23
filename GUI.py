@@ -86,14 +86,6 @@ class FrmMain ( wx.Frame ):
 		self.spinCtrl_Step = wx.SpinCtrl( self.panelBallistics, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 0, 10000, 0 )
 		szBallistics.Add( self.spinCtrl_Step, wx.GBPosition( 2, 5 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
-		szSelects = wx.BoxSizer( wx.HORIZONTAL )
-		
-		self.cbSelectAll = wx.CheckBox( self.panelBallistics, wx.ID_ANY, u"Select All", wx.DefaultPosition, wx.DefaultSize, 0 )
-		szSelects.Add( self.cbSelectAll, 0, wx.ALL, 5 )
-		
-		
-		szBallistics.Add( szSelects, wx.GBPosition( 3, 0 ), wx.GBSpan( 1, 6 ), wx.EXPAND, 5 )
-		
 		self.gridBallistics = wx.grid.Grid( self.panelBallistics, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.ALWAYS_SHOW_SB|wx.HSCROLL|wx.VSCROLL )
 		
 		# Grid
@@ -234,7 +226,6 @@ class FrmMain ( wx.Frame ):
 		self.spinCtrl_Step.Bind( wx.EVT_SPINCTRL, self.refresh )
 		self.spinCtrl_Step.Bind( wx.EVT_TEXT, self.refresh )
 		self.spinCtrl_Step.Bind( wx.EVT_TEXT_ENTER, self.refresh )
-		self.cbSelectAll.Bind( wx.EVT_CHECKBOX, self.cbSelectAll_Click )
 		self.btnPreview.Bind( wx.EVT_BUTTON, self.btnPreview_Click )
 		self.btnExport.Bind( wx.EVT_BUTTON, self.btnExport_Click )
 	
@@ -266,9 +257,6 @@ class FrmMain ( wx.Frame ):
 	
 	
 	
-	
-	def cbSelectAll_Click( self, event ):
-		event.Skip()
 	
 	def btnPreview_Click( self, event ):
 		event.Skip()

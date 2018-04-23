@@ -13,6 +13,16 @@ class Main(wx.Frame):
         ico = wx.Icon('sccg.ico', wx.BITMAP_TYPE_ICO)
         self.SetIcon(ico)
 
+        gsz = self.panelBallistics.GetSizer()
+        self.szSelects = wx.BoxSizer(wx.HORIZONTAL)
+        cbSelectAll = wx.CheckBox(self.panelBallistics, wx.ID_ANY, u"Select All", wx.DefaultPosition,
+                                  wx.DefaultSize, 0)
+        cbSelectAll.Bind(wx.EVT_CHECKBOX, self.cbSelectAll_Click)
+        self.szSelects.Add(cbSelectAll, 0, wx.ALL, 5)
+        gsz.Add(self.szSelects, wx.GBPosition(3, 0), wx.GBSpan(1, 6), wx.EXPAND, 5)
+        self.gridBallistics.Refresh()
+        self.panelBallistics.Layout()
+
         self.ballistics = Ballistics()
         self.ig = ""
         self.cbs = []
@@ -32,12 +42,14 @@ class Main(wx.Frame):
         self.gridBallistics.AutoSizeColumns()
         self.gridBallistics.AutoSizeRows()
 
+
+
         for column in list(self.ballistics.ballistics.columns.values):
             #print(column)
             cb = wx.CheckBox(self.panelBallistics, wx.ID_ANY, column, wx.DefaultPosition, wx.DefaultSize, 0)
             self.cbs.append(cb)
             # cb.SetSizer(self.panelBallistics.GetSizer())
-            szSelects.Add(cb, 0, wx.ALL, 5)
+            self.szSelects.Add(cb, 0, wx.ALL, 5)
 
         self.gridBallistics.Refresh()
         self.panelBallistics.Layout()
