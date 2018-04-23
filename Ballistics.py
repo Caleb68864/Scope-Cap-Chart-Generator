@@ -8,11 +8,13 @@ class Ballistics:
         if csv_file.is_file():
             print("File Found")
             self.orig_ballistics = self.ballistics = pd.read_csv(csv)
-            self.range_col = range_col
-            self.setrange(min_range, max_range)
-            self.selectcolumns(cols)
+
         else:
             self.orig_ballistics = self.ballistics = pd.DataFrame()
+
+        self.range_col = range_col
+        self.setrange(min_range, max_range)
+        self.selectcolumns(cols)
 
     def setorigballistics(self, b):
         self.orig_ballistics = b
@@ -48,7 +50,8 @@ class Ballistics:
             #print(self.ballistics.iloc[:, cols])
 
     def setrangecol(self, range_col):
-        self.range_col(range_col)
+        if range_col:
+            self.range_col = range_col
 
     def genballisticscsv(self):
         csv_file = Path("./ballistics.csv")

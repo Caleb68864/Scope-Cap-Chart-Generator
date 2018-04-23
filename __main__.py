@@ -35,6 +35,7 @@ class Main(wx.Frame):
 
         self.ballistics.setrange(self.spinCtrl_Min_Range.GetValue(), self.spinCtrl_Max_Range.GetValue(), self.spinCtrl_Step.GetValue())
         self.ballistics.selectcolumns(self.cols)
+        self.ballistics.setrangecol(self.cboxRangeCol.GetStringSelection())
         self.table = DataTable(self.ballistics.ballistics)
         self.gridBallistics.SetTable(self.table, True)
         self.gridBallistics.AutoSizeColumns()
@@ -63,6 +64,7 @@ class Main(wx.Frame):
 
         cbSelectAll = wx.CheckBox(self.panelBallistics, wx.ID_ANY, u"Select All", wx.DefaultPosition,
                                   wx.DefaultSize, 0)
+        cbSelectAll.SetValue(True)
         cbSelectAll.Bind(wx.EVT_CHECKBOX, self.cbSelectAll_Click)
         self.szSelects.Add(cbSelectAll, 0, wx.ALL, 5)
 
@@ -74,6 +76,8 @@ class Main(wx.Frame):
             cb.Bind(wx.EVT_CHECKBOX, self.cbSelect_Click)
             self.cbs.append(cb)
             self.szSelects.Add(cb, 0, wx.ALL, 5)
+
+        self.cboxRangeCol.SetItems(self.ballistics.orig_ballistics.columns.values)
 
 
         self.gridBallistics.Refresh()

@@ -18,9 +18,9 @@ import wx.grid
 class FrmMain ( wx.Frame ):
 	
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Scope Cap Chart Generator", pos = wx.DefaultPosition, size = wx.Size( 675,675 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Scope Cap Chart Generator", pos = wx.DefaultPosition, size = wx.Size( -1,-1 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 		
-		self.SetSizeHintsSz( wx.Size( 675,675 ), wx.DefaultSize )
+		self.SetSizeHintsSz( wx.Size( 850,675 ), wx.DefaultSize )
 		
 		gbSizer1 = wx.GridBagSizer( 0, 0 )
 		gbSizer1.SetFlexibleDirection( wx.BOTH )
@@ -49,7 +49,7 @@ class FrmMain ( wx.Frame ):
 		
 		szLoadFile.AddGrowableCol( 1 )
 		
-		szBallistics.Add( szLoadFile, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 6 ), wx.EXPAND, 5 )
+		szBallistics.Add( szLoadFile, wx.GBPosition( 0, 0 ), wx.GBSpan( 1, 8 ), wx.EXPAND, 5 )
 		
 		szButtons = wx.BoxSizer( wx.HORIZONTAL )
 		
@@ -63,28 +63,36 @@ class FrmMain ( wx.Frame ):
 		szButtons.Add( self.btnClear, 1, wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
 		
-		szBallistics.Add( szButtons, wx.GBPosition( 1, 0 ), wx.GBSpan( 1, 6 ), wx.EXPAND, 5 )
+		szBallistics.Add( szButtons, wx.GBPosition( 1, 0 ), wx.GBSpan( 1, 8 ), wx.EXPAND, 5 )
+		
+		self.m_staticText11 = wx.StaticText( self.panelBallistics, wx.ID_ANY, u"Range Column:", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText11.Wrap( -1 )
+		szBallistics.Add( self.m_staticText11, wx.GBPosition( 2, 0 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
+		
+		cboxRangeColChoices = []
+		self.cboxRangeCol = wx.ComboBox( self.panelBallistics, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, cboxRangeColChoices, 0 )
+		szBallistics.Add( self.cboxRangeCol, wx.GBPosition( 2, 1 ), wx.GBSpan( 1, 1 ), wx.ALL, 5 )
 		
 		self.m_staticText1 = wx.StaticText( self.panelBallistics, wx.ID_ANY, u"Min Range:", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText1.Wrap( -1 )
-		szBallistics.Add( self.m_staticText1, wx.GBPosition( 2, 0 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
+		szBallistics.Add( self.m_staticText1, wx.GBPosition( 2, 2 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
 		self.spinCtrl_Min_Range = wx.SpinCtrl( self.panelBallistics, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 0, 10000, 0 )
-		szBallistics.Add( self.spinCtrl_Min_Range, wx.GBPosition( 2, 1 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_VERTICAL, 5 )
+		szBallistics.Add( self.spinCtrl_Min_Range, wx.GBPosition( 2, 3 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
 		self.m_staticText2 = wx.StaticText( self.panelBallistics, wx.ID_ANY, u"Max Range:", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText2.Wrap( -1 )
-		szBallistics.Add( self.m_staticText2, wx.GBPosition( 2, 2 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
+		szBallistics.Add( self.m_staticText2, wx.GBPosition( 2, 4 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
 		self.spinCtrl_Max_Range = wx.SpinCtrl( self.panelBallistics, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 0, 10000, 0 )
-		szBallistics.Add( self.spinCtrl_Max_Range, wx.GBPosition( 2, 3 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_VERTICAL, 5 )
+		szBallistics.Add( self.spinCtrl_Max_Range, wx.GBPosition( 2, 5 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
 		self.m_staticText3 = wx.StaticText( self.panelBallistics, wx.ID_ANY, u"Step:", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText3.Wrap( -1 )
-		szBallistics.Add( self.m_staticText3, wx.GBPosition( 2, 4 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
+		szBallistics.Add( self.m_staticText3, wx.GBPosition( 2, 6 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
 		self.spinCtrl_Step = wx.SpinCtrl( self.panelBallistics, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 0, 10000, 0 )
-		szBallistics.Add( self.spinCtrl_Step, wx.GBPosition( 2, 5 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_VERTICAL, 5 )
+		szBallistics.Add( self.spinCtrl_Step, wx.GBPosition( 2, 7 ), wx.GBSpan( 1, 1 ), wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
 		self.gridBallistics = wx.grid.Grid( self.panelBallistics, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.ALWAYS_SHOW_SB|wx.HSCROLL|wx.VSCROLL )
 		
@@ -118,12 +126,13 @@ class FrmMain ( wx.Frame ):
 		
 		# Cell Defaults
 		self.gridBallistics.SetDefaultCellAlignment( wx.ALIGN_CENTRE, wx.ALIGN_CENTRE )
-		szBallistics.Add( self.gridBallistics, wx.GBPosition( 4, 0 ), wx.GBSpan( 1, 6 ), wx.ALL|wx.EXPAND, 5 )
-		
-		
+		szBallistics.Add( self.gridBallistics, wx.GBPosition( 4, 0 ), wx.GBSpan( 1, 8 ), wx.ALL|wx.EXPAND, 5 )
+
+
 		szBallistics.AddGrowableCol( 1 )
 		szBallistics.AddGrowableCol( 3 )
 		szBallistics.AddGrowableCol( 5 )
+		szBallistics.AddGrowableCol( 7 )
 		szBallistics.AddGrowableRow( 4 )
 		
 		self.panelBallistics.SetSizer( szBallistics )
@@ -207,6 +216,7 @@ class FrmMain ( wx.Frame ):
 		
 		self.SetSizer( gbSizer1 )
 		self.Layout()
+		gbSizer1.Fit( self )
 		self.statusBar = self.CreateStatusBar( 1, 0, wx.ID_ANY )
 		
 		self.Centre( wx.BOTH )
