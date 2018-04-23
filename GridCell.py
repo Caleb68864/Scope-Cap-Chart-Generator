@@ -1,4 +1,6 @@
 from PIL import Image, ImageDraw, ImageFont
+import sys
+import os.path
 
 
 class GridCell:
@@ -21,7 +23,11 @@ class GridCell:
     def typeincell(self, text, fontcolor=(0, 0, 0)):
         draw = ImageDraw.Draw(self.img)
         fontsize = 1
-        font = ImageFont.truetype("Roboto-Regular.ttf", fontsize)
+        if hasattr(sys, "_MEIPASS"):
+            font_str = os.path.join(sys._MEIPASS, 'res/Roboto-Regular.ttf')
+        else:
+            font_str = 'res/Roboto-Regular.ttf'
+        font = ImageFont.truetype(font_str, fontsize)
 
         # Cell Size
         W = self.cell[1][0] - self.cell[0][0]
@@ -35,17 +41,17 @@ class GridCell:
         while font.getsize(text)[1] < h_img_fraction * H:
             # iterate until the text size is just larger than the criteria
             fontsize += 1
-            font = ImageFont.truetype("Roboto-Regular.ttf", fontsize)
+            font = ImageFont.truetype(font_str, fontsize)
         fontsize -= 1
-        font = ImageFont.truetype("Roboto-Regular.ttf", fontsize)
+        font = ImageFont.truetype(font_str, fontsize)
 
         while font.getsize(text)[0] > W * w_img_fraction:
             # iterate until the text size is just larger than the criteria
             fontsize -= 1
-            font = ImageFont.truetype("Roboto-Regular.ttf", fontsize)
+            font = ImageFont.truetype(font_str, fontsize)
             #print("Decreasing Width:", font.getsize(text))
         fontsize -= 1
-        font = ImageFont.truetype("Roboto-Regular.ttf", fontsize)
+        font = ImageFont.truetype(font_str, fontsize)
 
 
         # Centering Text

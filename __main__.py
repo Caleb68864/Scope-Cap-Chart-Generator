@@ -4,6 +4,9 @@ import wx
 from GUI import FrmMain
 from GUI import dlSave
 from DataTable import DataTable
+from pathlib import Path
+import sys
+import os.path
 
 
 class Main(wx.Frame):
@@ -16,8 +19,17 @@ class Main(wx.Frame):
         self.cbs = []
         self.cols = []
 
-        ico = wx.Icon('sccg.ico', wx.BITMAP_TYPE_ICO)
-        self.SetIcon(ico)
+        if hasattr(sys, "_MEIPASS"):
+            ico_str = os.path.join(sys._MEIPASS, 'res/sccg.ico')
+        else:
+            ico_str = 'res/sccg.ico'
+
+        ico = Path(ico_str)
+        if ico.is_file():
+            ico = wx.Icon(ico_str, wx.BITMAP_TYPE_ICO)
+            self.SetIcon(ico)
+        else:
+            print("Ico File Not Found")
 
         gsz = self.panelBallistics.GetSizer()
         self.szSelects = wx.BoxSizer(wx.HORIZONTAL)
