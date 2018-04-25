@@ -1,14 +1,20 @@
 import pandas as pd
 from pathlib import Path
-
+import os
 
 class Ballistics:
     def __init__(self, csv='./ballistics.csv', min_range=-1, max_range=-1, step=-1, range_col='Range', cols=[]):
+
         csv_file = Path(csv)
         if csv_file.is_file():
             #print("File Found")
-            self.orig_ballistics = self.ballistics = pd.read_csv(csv)
-
+            filename = os.path.split(csv)
+            ext = filename[1].split('.')
+            #print(filename[1], ext)
+            if ext[1] == 'csv':
+                self.orig_ballistics = self.ballistics = pd.read_csv(csv)
+            elif ext[1] == 'xls' or ext[1] == 'xlsx':
+                self.orig_ballistics = self.ballistics = pd.read_excel(csv)
         else:
             self.orig_ballistics = self.ballistics = pd.DataFrame()
 
