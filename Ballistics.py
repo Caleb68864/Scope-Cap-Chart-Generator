@@ -1,6 +1,8 @@
 import pandas as pd
 from pathlib import Path
 import os
+from xlrd import open_workbook, XLRDError
+
 
 class Ballistics:
     def __init__(self, csv='./ballistics.csv', min_range=-1, max_range=-1, step=-1, range_col='Range', cols=[]):
@@ -14,7 +16,16 @@ class Ballistics:
             if ext[1] == 'csv':
                 self.orig_ballistics = self.ballistics = pd.read_csv(csv)
             elif ext[1] == 'xls' or ext[1] == 'xlsx':
-                self.orig_ballistics = self.ballistics = pd.read_excel(csv)
+                try:
+                    open_workbook(filename)
+                except XLRDError:
+                    self.orig_ballistics = self.ballistics = pd.DataFrame()
+                    print("Not A Invalid Excel File!")
+                else:
+                    self.orig_ballistics = self.ballistics = pd.read_excel(csv)
+            else:
+                self.orig_ballistics = self.ballistics = pd.DataFrame()
+                print("Invalid File: Load CSV or Excel")
         else:
             self.orig_ballistics = self.ballistics = pd.DataFrame()
 
