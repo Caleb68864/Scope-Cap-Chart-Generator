@@ -2,7 +2,7 @@
 Python program for generating range charts to place inside of your scope caps
 
 #### How To Use
- 1. Get a CSV version of your ballistic chart.
+ 1. Get a CSV or Excel version of your ballistic chart.
  2. Load it into the application via the "Browse Button"
  3. Select the ranges and columns you want.
  4. Preview the image in the preview tab
@@ -11,7 +11,6 @@ Python program for generating range charts to place inside of your scope caps
 #### ToDo
  * Add Functionality to GUI
     * Save Config file from chart colors and ranges
-    * Load from Excel file 
  * Export to PDF with scope dimensions
 
 #### Screenshots
