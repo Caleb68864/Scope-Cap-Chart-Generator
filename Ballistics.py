@@ -12,12 +12,13 @@ class Ballistics:
             #print("File Found")
             filename = os.path.split(csv)
             ext = filename[1].split('.')
+            ext = ext[len(ext) - 1]
             #print(filename[1], ext)
-            if ext[1] == 'csv':
+            if ext == 'csv':
                 self.orig_ballistics = self.ballistics = pd.read_csv(csv)
-            elif ext[1] == 'xls' or ext[1] == 'xlsx':
+            elif ext == 'xls' or ext == 'xlsx':
                 try:
-                    open_workbook(filename)
+                    open_workbook(csv)
                 except XLRDError:
                     self.orig_ballistics = self.ballistics = pd.DataFrame()
                     print("Not A Invalid Excel File!")
