@@ -11,6 +11,7 @@ Python program for generating range charts to place inside of your scope caps
 #### ToDo
  * Add Functionality to GUI
     * Save Config file from chart colors and ranges
+    * Change Image Resolution
  * Export to PDF with scope dimensions
 
 #### Screenshots
